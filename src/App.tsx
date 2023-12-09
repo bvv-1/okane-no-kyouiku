@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react"
+import { getHelloWorldApi } from "./utils/links"
 
 function App() {
-  const API_BASE_URL = "https://flask-okane-no-kyouiku.onrender.com/" // "http://127.0.0.1:5000/""
-
   const [data, setData] = useState("")
 
   useEffect(() => {
     const fetchHelloWorld = async () => {
-      const response = await fetch(API_BASE_URL)
+      const response = await fetch(getHelloWorldApi)
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
