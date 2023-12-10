@@ -14,10 +14,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <button onClick={() => setUIState(UIState.Start)}>はじめる</button>
-      <button onClick={() => setUIState(UIState.Plan)}>お手伝いプラン</button>
-      <button onClick={() => setUIState(UIState.Record)}>日々の記録</button>
-      <button onClick={() => setUIState(UIState.Progress)}>進捗</button>
+      <div>
+        <button onClick={() => setUIState(UIState.Start)}>はじめる</button>
+        <button onClick={() => setUIState(UIState.Plan)}>お手伝いプラン</button>
+        <button onClick={() => setUIState(UIState.Record)}>日々の記録</button>
+        <button onClick={() => setUIState(UIState.Progress)}>進捗</button>
+      </div>
 
       <div>
         {uiState === UIState.Start && <Start setPlans={setPlans} onNextPressed={() => setUIState(UIState.Plan)} />}
