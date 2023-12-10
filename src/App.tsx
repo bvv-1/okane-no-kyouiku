@@ -9,6 +9,7 @@ import imgCongrats from "./assets/kusudama_1170.png";
 
 export default function App() {
   const [uiState, setUIState] = useState<UIState>(UIState.Start);
+  const [plans, setPlans] = useState<Plan[]>([]);
 
   return (
     <div className="App">
@@ -18,8 +19,8 @@ export default function App() {
       <button onClick={() => setUIState(UIState.Progress)}>Progress</button>
 
       <div>
-        {uiState === UIState.Start && <Start />}
-        {uiState === UIState.Plan && <Plan />}
+        {uiState === UIState.Start && <Start setPlans={setPlans} />}
+        {uiState === UIState.Plan && <Plan plans={plans} />}
         {uiState === UIState.Record && <Record />}
         {uiState === UIState.Progress && <Progress />}
       </div>
@@ -28,7 +29,7 @@ export default function App() {
 }
 
 // ここからをメインでいじってください!
-function Start() {
+function Start({ setPlans }: { setPlans: (plans: Plan[]) => void}) {
   const [itemName, setItemName] = useState("");
   const [requiredPoint, setRequiredPoint] = useState(100);
   const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }]);
@@ -83,8 +84,8 @@ function Start() {
     }
 
     const jsonData = await response.json();
-    console.log(jsonData["plans"]);
     alert("登録しました！");
+    setPlans(jsonData["plans"]);
   };
 
   return (
@@ -153,8 +154,56 @@ function Start() {
   );
 }
 
-function Plan() {
-  return <div>Plan</div>;
+function Plan({ plans }: { plans: Plan[]}) {
+  const [showAllPlans, setShowAllPlans] = useState(false);
+
+  return (
+    <>
+      <div className="title">
+        <h1>計画</h1>
+        <p>AIが作成したお手伝いプランです</p>
+      </div>
+
+      {/* TODO: 何日に一回なにをする、みたいなサマリーを表示 */}
+
+      <button onClick={() => setShowAllPlans(!showAllPlans)}>
+        {showAllPlans ? "表示しない" : "日々の計画を表示する"}
+      </button>
+      {showAllPlans && (
+        <div>
+          <h3>日々の計画</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>日付</th>
+                <th>お手伝いタスク</th>
+                <th>合計ポイント</th>
+              </tr>
+            </thead>
+            <tbody>
+              {plans.map((plan, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{plan.day}日目</td>
+                    <td>
+                      {plan.plans_today.map((task, index) => {
+                        return (
+                          <div key={index}>
+                            {task.task} ({task.point}pt)
+                          </div>
+                        );
+                      })}
+                    </td>
+                    <td>{plan.plans_today.reduce((acc, cur) => acc + cur.point, 0)}pt</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
+  );
 }
 
 function Record() {
@@ -213,9 +262,9 @@ function Progress() {
           <h3>ほしい物</h3>
           {goal ? goal.goal : "未設定"}
           <h3>必要ポイント</h3>
-          {goal ? goal.goal_points : "未設定"}
+          {goal ? `${goal.goal_points}pt` : "未設定"}
           <h3>現在のポイント</h3>
-          {totalProgress}
+          {totalProgress}pt
           {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
         </div>
       )}
@@ -241,3 +290,8 @@ type Goal = {
   goal: string;
   goal_points: number;
 };
+
+type Plan = {
+  day: number;
+  plans_today: Task[];
+}
