@@ -184,7 +184,8 @@ p {
 }
 
 .sintyoku{
-  width: 480px;
+  max-width: 400px;
+  width: 90%;
   height: auto;
   display: flex;
   padding: 30px;
@@ -226,7 +227,7 @@ span{
 
 table{
   max-width: 400px;
-  width: 70%;
+  width: 90%;
   margin: 16px auto 40px auto;
   text-align: center;
 
