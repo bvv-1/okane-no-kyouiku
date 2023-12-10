@@ -1,25 +1,14 @@
-import { useState, useEffect } from "react"
-import { getHelloWorldApi, postSuggestPlanApi, getTotalProgressApi, getGoalApi } from "./utils/links"
-import "./App.css"
+import { useState, useEffect } from "react";
+import {
+  postSuggestPlanApi,
+  getTotalProgressApi,
+  getGoalApi,
+} from "./utils/links";
+import "./App.css";
+import imgCongrats from "./assets/kusudama_1170.png";
 
 export default function App() {
-  const [uiState, setUIState] = useState<UIState>(UIState.Start)
-  const [data, setData] = useState("")
-
-  useEffect(() => {
-    const fetchHelloWorld = async () => {
-      const response = await fetch(getHelloWorldApi())
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const jsonData = await response.json()
-      setData(jsonData["message"])
-    }
-
-    fetchHelloWorld()
-  }, [])
+  const [uiState, setUIState] = useState<UIState>(UIState.Start);
 
   return (
     <div className="App">
@@ -34,43 +23,42 @@ export default function App() {
         {uiState === UIState.Record && <Record />}
         {uiState === UIState.Progress && <Progress />}
       </div>
-      {data}
     </div>
-  )
+  );
 }
 
 // ここからをメインでいじってください!
 function Start() {
-  const [itemName, setItemName] = useState("")
-  const [requiredPoint, setRequiredPoint] = useState(100)
-  const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }])
+  const [itemName, setItemName] = useState("");
+  const [requiredPoint, setRequiredPoint] = useState(100);
+  const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }]);
 
   const handleOnAddTask = () => {
-    setTasks([...tasks, { task: "", point: 0 }])
-  }
+    setTasks([...tasks, { task: "", point: 0 }]);
+  };
 
   const handleOnChangeTask = (index: number, task: string) => {
-    const newTasks = [...tasks]
-    newTasks[index].task = task
-    setTasks(newTasks)
-  }
+    const newTasks = [...tasks];
+    newTasks[index].task = task;
+    setTasks(newTasks);
+  };
 
   const handleOnChangePoint = (index: number, point: number) => {
-    const newTasks = [...tasks]
-    newTasks[index].point = point
-    setTasks(newTasks)
-  }
+    const newTasks = [...tasks];
+    newTasks[index].point = point;
+    setTasks(newTasks);
+  };
 
   const handleOnClear = () => {
-    setItemName("")
-    setRequiredPoint(100)
-    setTasks([{ task: "", point: 0 }])
-  }
+    setItemName("");
+    setRequiredPoint(100);
+    setTasks([{ task: "", point: 0 }]);
+  };
 
   const handleOnNext = async () => {
     if (itemName === "") {
-      alert("商品名を入力してください")
-      return
+      alert("商品名を入力してください");
+      return;
     }
 
     const response = await fetch(postSuggestPlanApi(), {
@@ -85,19 +73,19 @@ function Start() {
           return {
             task: task.task,
             point: task.point,
-          }
+          };
         }),
       }),
-    })
+    });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const jsonData = await response.json()
-    console.log(jsonData["plans"])
-    alert("登録しました！")
-  }
+    const jsonData = await response.json();
+    console.log(jsonData["plans"]);
+    alert("登録しました！");
+  };
 
   return (
     <>
@@ -112,17 +100,17 @@ function Start() {
         placeholder="商品名を入力してください"
         value={itemName}
         onChange={(e) => {
-          setItemName(e.target.value)
+          setItemName(e.target.value);
         }}
       />
 
       <h3>必要なお手伝いポイント</h3>
       <input
         type="number"
-        placeholder="必要なポイント(1~1000)"
+        placeholder="必要なポイント (1~1000)"
         value={requiredPoint}
         onChange={(e) => {
-          setRequiredPoint(Number(e.target.value))
+          setRequiredPoint(Number(e.target.value));
         }}
       />
 
@@ -138,7 +126,7 @@ function Start() {
                 placeholder="タスク名"
                 value={task.task}
                 onChange={(e) => {
-                  handleOnChangeTask(index, e.target.value)
+                  handleOnChangeTask(index, e.target.value);
                 }}
               />
               <input
@@ -146,11 +134,11 @@ function Start() {
                 placeholder="ポイント"
                 value={task.point}
                 onChange={(e) => {
-                  handleOnChangePoint(index, Number(e.target.value))
+                  handleOnChangePoint(index, Number(e.target.value));
                 }}
               />
             </div>
-          )
+          );
         })}
         <button onClick={handleOnAddTask}>タスクを追加</button>
       </div>
@@ -162,60 +150,77 @@ function Start() {
         <button onClick={handleOnNext}>Next</button>
       </div>
     </>
-  )
+  );
 }
 
 function Plan() {
-  return <div>Plan</div>
+  return <div>Plan</div>;
 }
 
 function Record() {
-  return <div>Record</div>
+  return <div>Record</div>;
 }
 
 function Progress() {
-  const [totalProgress, setTotalProgress] = useState(-1)
-  const [goal, setGoal] = useState<Goal | null>(null)
+  const [totalProgress, setTotalProgress] = useState(-1);
+  const [goal, setGoal] = useState<Goal | null>(null);
 
   useEffect(() => {
     const fetchGoal = async () => {
-      const response = await fetch(getGoalApi())
+      const response = await fetch(getGoalApi());
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const jsonData = await response.json()
-      console.log(jsonData)
-      setGoal({"goal": jsonData["goal"], "goal_points": jsonData["goal_points"]})
-    }
-    fetchGoal()
+      const jsonData = await response.json();
+      console.log(jsonData);
+      setGoal({ goal: jsonData["goal"], goal_points: jsonData["goal_points"] });
+    };
+    fetchGoal();
 
     const fetchTotalProgress = async () => {
-      const response = await fetch(getTotalProgressApi())
+      const response = await fetch(getTotalProgressApi());
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const jsonData = await response.json()
-      console.log(jsonData)
-      setTotalProgress(jsonData["points"])
-    }
-    fetchTotalProgress()
-  }, [])
+      const jsonData = await response.json();
+      console.log(jsonData);
+      setTotalProgress(jsonData["points"]);
+    };
+    fetchTotalProgress();
+  }, []);
 
-  return (<>
-    <div className="title">
+  return (
+    <>
+      <div className="title">
         <h1>進捗</h1>
         <p>現在の進捗状況を確認できます</p>
       </div>
-    <div><h3>目標</h3>{goal?.goal}</div>
-    <div><h3>必要ポイント</h3>{goal?.goal_points}</div>
-    <div><h3>現在のポイント</h3>{totalProgress}</div>
-    {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
-  </>
-  )
+
+      {goal && totalProgress >= goal.goal_points ? (
+        <div>
+          <h2>目標達成！</h2>
+          <p>
+            おめでとうございます！マネーリテラシーの向上に向けて素晴らしい成果を上げましたね。お子さんの努力は本当に素晴らしいものです。これからもこの調子でスキルを磨いていきましょう。よく頑張りました！
+          </p>
+          <img src={imgCongrats} alt="おめでとう" width={300} />
+        </div>
+      ) : (
+        <div>
+          <h3>ほしい物</h3>
+          {goal ? goal.goal : "未設定"}
+          <h3>必要ポイント</h3>
+          {goal ? goal.goal_points : "未設定"}
+          <h3>現在のポイント</h3>
+          {totalProgress}
+          {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
+        </div>
+      )}
+    </>
+  );
 }
 // ここまでをメインでいじってください!
 
@@ -224,15 +229,15 @@ const UIState = {
   Plan: 1,
   Record: 2,
   Progress: 3,
-} as const
-type UIState = (typeof UIState)[keyof typeof UIState]
+} as const;
+type UIState = (typeof UIState)[keyof typeof UIState];
 
 type Task = {
-  task: string
-  point: number
-}
+  task: string;
+  point: number;
+};
 
 type Goal = {
-  goal: string
-  goal_points: number
-}
+  goal: string;
+  goal_points: number;
+};
