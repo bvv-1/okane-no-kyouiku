@@ -5,7 +5,7 @@ export const getHelloWorldApi = () => {
 }
 
 export const postSuggestPlanApi = () => {
-	return `${API_BASE_URL}api/v1/plans/suggest`
+	return `${API_BASE_URL}api/v2/plans/suggest`
 }
 
 export const postAcceptPlanApi = () => {
