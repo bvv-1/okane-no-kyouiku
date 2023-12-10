@@ -24,22 +24,58 @@ export default function App() {
   return (
     <div className="App">
       {data}
-      <button onClick={() => setUIState(UIState.Start)}><Start /></button>
-      <button onClick={() => setUIState(UIState.Plan)}><Plan /></button>
-      <button onClick={() => setUIState(UIState.Record)}><Record /></button>
-      <button onClick={() => setUIState(UIState.Progress)}><Progress /></button>
+      <button onClick={() => setUIState(UIState.Start)}>Start</button>
+      <button onClick={() => setUIState(UIState.Plan)}>Plan</button>
+      <button onClick={() => setUIState(UIState.Record)}>Record</button>
+      <button onClick={() => setUIState(UIState.Progress)}>Progerss</button>
 
-      {uiState === UIState.Start && <div>Start</div>}
-      {uiState === UIState.Plan && <div>Plan</div>}
-      {uiState === UIState.Record && <div>Record</div>}
-      {uiState === UIState.Progress && <div>Progress</div>}
+      <div>
+        {uiState === UIState.Start && <Start />}
+        {uiState === UIState.Plan && <Plan />}
+        {uiState === UIState.Record && <Record />}
+        {uiState === UIState.Progress && <Progress />}
+      </div>
     </div>
   )
 }
 
 // ここからをメインでいじってください!
 function Start() {
-  return <div>Start</div>
+  const [itemName, setItemName] = useState("")
+  const [requiredPoint, setRequiredPoint] = useState(100)
+
+  const handleOnClear = () => {
+    setItemName("")
+    setRequiredPoint(100)
+  }
+
+  const handleOnNext = () => {
+  }
+
+  return (<>
+    <div className="title">
+      <h1>登録</h1>
+      <p>子どもがほしい物とそれに必要なお手伝いポイントを設定してください</p>
+    </div>
+    
+    <h3>ほしい物</h3>
+    <input type="text" placeholder="商品名を入力してください" value={itemName} onChange={(e) => {setItemName(e.target.value)}} />
+
+    <h3>必要なお手伝いポイント</h3>
+    <input type="number" placeholder="必要なポイント(1~1000)" value={requiredPoint} onChange={(e) => {setRequiredPoint(Number(e.target.value))}} />
+
+    <br />
+
+    <div className="buttons">
+      <button onClick={handleOnClear}>
+        Clear
+      </button>
+
+      <button onClick={handleOnNext}>
+        Next
+      </button>
+    </div>
+  </>)
 }
 
 function Plan() {

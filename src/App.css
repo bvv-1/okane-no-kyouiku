@@ -1,4 +1,45 @@
 /* CSSです */
 .App {
   text-align: center;
+  background-color: #f7f1e3;
+  color: #555;
+}
+
+.title {
+  background-color: #ffb142;
+}
+
+.buttons {
+  background-color: #ffb142;
+}
+
+/* タイポグラフィ */
+h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+	color: #7C2D12;
+}
+h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+	color: #7C2D12;
+}
+h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+	color: #7C2D12;
+}
+p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: normal;
+}
+.small {
+  font-size: 10px;
+}
+.caption {
+  font-size: 6px;
 }
