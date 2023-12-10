@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getHelloWorldApi, postSuggestPlanApi } from "./utils/links"
+import { getHelloWorldApi, postSuggestPlanApi, getTotalProgressApi, getGoalApi } from "./utils/links"
 import "./App.css"
 
 export default function App() {
@@ -26,7 +26,7 @@ export default function App() {
       <button onClick={() => setUIState(UIState.Start)}>Start</button>
       <button onClick={() => setUIState(UIState.Plan)}>Plan</button>
       <button onClick={() => setUIState(UIState.Record)}>Record</button>
-      <button onClick={() => setUIState(UIState.Progress)}>Progerss</button>
+      <button onClick={() => setUIState(UIState.Progress)}>Progress</button>
 
       <div>
         {uiState === UIState.Start && <Start />}
@@ -174,7 +174,48 @@ function Record() {
 }
 
 function Progress() {
-  return <div>Progress</div>
+  const [totalProgress, setTotalProgress] = useState(-1)
+  const [goal, setGoal] = useState<Goal | null>(null)
+
+  useEffect(() => {
+    const fetchGoal = async () => {
+      const response = await fetch(getGoalApi())
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const jsonData = await response.json()
+      console.log(jsonData)
+      setGoal({"goal": jsonData["goal"], "goal_points": jsonData["goal_points"]})
+    }
+    fetchGoal()
+
+    const fetchTotalProgress = async () => {
+      const response = await fetch(getTotalProgressApi())
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const jsonData = await response.json()
+      console.log(jsonData)
+      setTotalProgress(jsonData["points"])
+    }
+    fetchTotalProgress()
+  }, [])
+
+  return (<>
+    <div className="title">
+        <h1>進捗</h1>
+        <p>現在の進捗状況を確認できます</p>
+      </div>
+    <div><h3>目標</h3>{goal?.goal}</div>
+    <div><h3>必要ポイント</h3>{goal?.goal_points}</div>
+    <div><h3>現在のポイント</h3>{totalProgress}</div>
+    {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
+  </>
+  )
 }
 // ここまでをメインでいじってください!
 
@@ -189,4 +230,9 @@ type UIState = (typeof UIState)[keyof typeof UIState]
 type Task = {
   task: string
   point: number
+}
+
+type Goal = {
+  goal: string
+  goal_points: number
 }
