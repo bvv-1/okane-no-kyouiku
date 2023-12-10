@@ -11,6 +11,8 @@ import imgCongrats from "./assets/kusudama_1170.png";
 export default function App() {
   const [uiState, setUIState] = useState<UIState>(UIState.Start);
   const [plans, setPlans] = useState<Plan[]>([]);
+  const [plansIdsId, setPlansIdsId] = useState<number | null>(null);
+  const [tasksIdsId, setTasksIdsId] = useState<number | null>(null);
 
   return (
     <div className="App">
@@ -22,8 +24,8 @@ export default function App() {
       </div>
 
       <div>
-        {uiState === UIState.Start && <Start setPlans={setPlans} onNextPressed={() => setUIState(UIState.Plan)} />}
-        {uiState === UIState.Plan && <Plan plans={plans} onBackPressed={() => setUIState(UIState.Start)} />}
+        {uiState === UIState.Start && <Start setPlans={setPlans} setPlansIdsId={setPlansIdsId} setTasksIdsId={setTasksIdsId} onNextPressed={() => setUIState(UIState.Plan)} />}
+        {uiState === UIState.Plan && <Plan plans={plans} plansIdsId={plansIdsId} tasksIdsId={tasksIdsId} onBackPressed={() => setUIState(UIState.Start)} />}
         {uiState === UIState.Record && <Record />}
         {uiState === UIState.Progress && <Progress />}
       </div>
@@ -33,11 +35,13 @@ export default function App() {
 
 interface StartProps {
   setPlans: (plans: Plan[]) => void;
+  setPlansIdsId: (plansIdsId: number | null) => void;
+  setTasksIdsId: (tasksIdsId: number | null) => void;
   onNextPressed: () => void;
 }
 
 // ここからをメインでいじってください!
-function Start({ setPlans, onNextPressed }: StartProps) {
+function Start({ setPlans, setPlansIdsId, setTasksIdsId, onNextPressed }: StartProps) {
   const [itemName, setItemName] = useState("");
   const [requiredPoint, setRequiredPoint] = useState(100);
   const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }]);
@@ -93,6 +97,8 @@ function Start({ setPlans, onNextPressed }: StartProps) {
 
     const jsonData = await response.json();
     setPlans(jsonData["plans"]);
+    setPlansIdsId(jsonData["plans_ids_id"]);
+    setTasksIdsId(jsonData["tasks_ids_id"]);
     alert("登録しました！");
     onNextPressed();
   };
@@ -165,10 +171,12 @@ function Start({ setPlans, onNextPressed }: StartProps) {
 
 interface PlanProps {
   plans: Plan[];
+  plansIdsId: number | null;
+  tasksIdsId: number | null;
   onBackPressed: () => void;
 }
 
-function Plan({ plans, onBackPressed }: PlanProps) {
+function Plan({ plans, plansIdsId, tasksIdsId, onBackPressed }: PlanProps) {
   const [showAllPlans, setShowAllPlans] = useState(false);
 
   const handleAcceptPlan = async () => {
@@ -178,17 +186,8 @@ function Plan({ plans, onBackPressed }: PlanProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        plans: plans.map((plan) => {
-          return {
-            day: plan.day,
-            plans_today: plan.plans_today.map((task) => {
-              return {
-                task: task.task,
-                point: task.point,
-              };
-            }),
-          };
-        }),
+        plans_ids_id: plansIdsId,
+        tasks_ids_id: tasksIdsId,
       }),
     });
 
