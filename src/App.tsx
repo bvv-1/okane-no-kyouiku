@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getHelloWorldApi } from "./utils/links"
+import { getHelloWorldApi, postSuggestPlanApi } from "./utils/links"
 import "./App.css"
 
 export default function App() {
@@ -49,7 +49,31 @@ function Start() {
     setRequiredPoint(100)
   }
 
-  const handleOnNext = () => {
+  const handleOnNext = async () => {
+    if (itemName === "") {
+      alert("商品名を入力してください")
+      return
+    }
+
+    const response = await fetch(postSuggestPlanApi(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        goal: itemName,
+        goal_points: requiredPoint,
+        tasks: [],
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+
+    const jsonData = await response.json()
+    console.log(jsonData["plans"])
+    alert("登録しました！")
   }
 
   return (<>
