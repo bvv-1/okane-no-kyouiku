@@ -381,8 +381,8 @@ function Record({ day, setDay, onNextPressed }: RecordProps) {
       )}
 
       <div className="buttons">
-        <button onClick={() => setDay((prev: number) => Number(prev) - 1)}>前の日へ</button>
-        <button onClick={() => setDay((prev: number) => Number(prev) + 1)}>次の日へ</button>
+        <button onClick={() => setDay(day - 1)}>前の日へ</button>
+        <button onClick={() => setDay(day + 1)}>次の日へ</button>
       </div>
     </>
   );
