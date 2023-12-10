@@ -12,9 +12,12 @@ export default function App() {
   const [uiState, setUIState] = useState<UIState>(UIState.Start);
   const [plans, setPlans] = useState<Plan[]>([]);
 
-  return (
+  return (<>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+    <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet"></link>
     <div className="App">
-      <div>
+      <div className="navi">
         <button onClick={() => setUIState(UIState.Start)}>はじめる</button>
         <button onClick={() => setUIState(UIState.Plan)}>お手伝いプラン</button>
         <button onClick={() => setUIState(UIState.Record)}>日々の記録</button>
@@ -28,7 +31,9 @@ export default function App() {
         {uiState === UIState.Progress && <Progress />}
       </div>
     </div>
+  </>
   );
+
 }
 
 interface StartProps {
@@ -106,6 +111,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
 
       <h3>ほしい物</h3>
       <input
+      className="inputGet"
         type="text"
         placeholder="商品名を入力してください"
         value={itemName}
@@ -117,6 +123,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
       <h3>必要なお手伝いポイント</h3>
       <input
         type="number"
+        className="inputGet"
         placeholder="必要なポイント (1~1000)"
         value={requiredPoint}
         onChange={(e) => {
@@ -132,6 +139,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
           return (
             <div key={index}>
               <input
+              className="inputGetText"
                 type="text"
                 placeholder="タスク名"
                 value={task.task}
@@ -141,6 +149,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
               />
               <input
                 type="number"
+                className="inputGetNumber"
                 placeholder="ポイント"
                 value={task.point}
                 onChange={(e) => {
@@ -150,7 +159,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
             </div>
           );
         })}
-        <button onClick={handleOnAddTask}>タスクを追加</button>
+        <button id="taskbutton" onClick={handleOnAddTask}>タスクを追加</button>
       </div>
       <br />
 
