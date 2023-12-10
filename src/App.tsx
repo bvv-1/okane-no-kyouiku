@@ -111,7 +111,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
 
       <h3>ほしい物</h3>
       <input
-      className="inputGet"
+        className="inputGet"
         type="text"
         placeholder="商品名を入力してください"
         value={itemName}
@@ -139,7 +139,7 @@ function Start({ setPlans, onNextPressed }: StartProps) {
           return (
             <div key={index}>
               <input
-              className="inputGetText"
+                className="inputGetText"
                 type="text"
                 placeholder="タスク名"
                 value={task.task}
@@ -317,13 +317,24 @@ function Progress() {
           <img src={imgCongrats} alt="おめでとう" width={300} />
         </div>
       ) : (
-        <div>
-          <h3>ほしい物</h3>
-          {goal ? goal.goal : "未設定"}
-          <h3>必要ポイント</h3>
-          {goal ? `${goal.goal_points}pt` : "未設定"}
-          <h3>現在のポイント</h3>
-          {totalProgress}pt
+        <div className="sintyoku">
+          <div className="sintyokuGet">
+            <h3>ほしい物</h3>
+            <p>{goal ? goal.goal : "未設定"}</p>
+          </div>
+          <div className="sintyokuPoint">
+            <div>
+              <h3>必要ポイント</h3>
+              <p><span>{goal ? `${goal.goal_points}` : "未設定"}</span>pt</p>
+            </div>
+            <div>
+              <h3>現在のポイント</h3>
+              <p><span>{totalProgress}</span>pt</p>
+            </div>
+          </div>
+
+
+
           {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
         </div>
       )}
