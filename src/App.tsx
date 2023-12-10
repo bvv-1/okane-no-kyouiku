@@ -13,10 +13,10 @@ export default function App() {
 
   return (
     <div className="App">
-      <button onClick={() => setUIState(UIState.Start)}>Start</button>
-      <button onClick={() => setUIState(UIState.Plan)}>Plan</button>
-      <button onClick={() => setUIState(UIState.Record)}>Record</button>
-      <button onClick={() => setUIState(UIState.Progress)}>Progress</button>
+      <button onClick={() => setUIState(UIState.Start)}>はじめる</button>
+      <button onClick={() => setUIState(UIState.Plan)}>お手伝いプラン</button>
+      <button onClick={() => setUIState(UIState.Record)}>日々の記録</button>
+      <button onClick={() => setUIState(UIState.Progress)}>進捗</button>
 
       <div>
         {uiState === UIState.Start && <Start setPlans={setPlans} />}
@@ -28,8 +28,12 @@ export default function App() {
   );
 }
 
+interface StartProps {
+  setPlans: (plans: Plan[]) => void;
+}
+
 // ここからをメインでいじってください!
-function Start({ setPlans }: { setPlans: (plans: Plan[]) => void}) {
+function Start({ setPlans }: StartProps) {
   const [itemName, setItemName] = useState("");
   const [requiredPoint, setRequiredPoint] = useState(100);
   const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }]);
@@ -154,7 +158,11 @@ function Start({ setPlans }: { setPlans: (plans: Plan[]) => void}) {
   );
 }
 
-function Plan({ plans }: { plans: Plan[]}) {
+interface PlanProps {
+  plans: Plan[];
+}
+
+function Plan({ plans }: PlanProps) {
   const [showAllPlans, setShowAllPlans] = useState(false);
 
   return (
@@ -202,6 +210,12 @@ function Plan({ plans }: { plans: Plan[]}) {
           </table>
         </div>
       )}
+
+      <div className="buttons">
+        <button>計画を作り直す</button>
+        <button>計画を確定する</button>
+        <p>この計画で本当にいいか、必ず子どもと一緒に確認しましょう</p>
+      </div>
     </>
   );
 }
