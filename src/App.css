@@ -225,7 +225,8 @@ span{
 }
 
 table{
-  width: 560px;
+  max-width: 400px;
+  width: 70%;
   margin: 16px auto 40px auto;
   text-align: center;
 
