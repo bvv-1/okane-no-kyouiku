@@ -277,7 +277,7 @@ function Plan({ plans, plansIdsId, tasksIdsId, onBackPressed, onNextPressed }: P
 
 interface RecordProps {
   day: number;
-  setDay: (day: number) => void;
+  setDay: (day: number | ((prev: number) => number)) => void;
   onNextPressed: () => void;
 }
 
