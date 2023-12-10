@@ -4,6 +4,7 @@ import {
   getTotalProgressApi,
   getGoalApi,
   postAcceptPlanApi,
+  postTodayPlansApi,
 } from "./utils/links";
 import "./App.css";
 import imgCongrats from "./assets/kusudama_1170.png";
@@ -13,6 +14,7 @@ export default function App() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [plansIdsId, setPlansIdsId] = useState<number | null>(null);
   const [tasksIdsId, setTasksIdsId] = useState<number | null>(null);
+  const [day, setDay] = useState<number>(1);
 
   return (<>
 
@@ -29,8 +31,8 @@ export default function App() {
 
       <div>
         {uiState === UIState.Start && <Start setPlans={setPlans} setPlansIdsId={setPlansIdsId} setTasksIdsId={setTasksIdsId} onNextPressed={() => setUIState(UIState.Plan)} />}
-        {uiState === UIState.Plan && <Plan plans={plans} plansIdsId={plansIdsId} tasksIdsId={tasksIdsId} onBackPressed={() => setUIState(UIState.Start)} />}
-        {uiState === UIState.Record && <Record />}
+        {uiState === UIState.Plan && <Plan plans={plans} plansIdsId={plansIdsId} tasksIdsId={tasksIdsId} onBackPressed={() => setUIState(UIState.Start)} onNextPressed={() => setUIState(UIState.Record)} />}
+        {uiState === UIState.Record && <Record day={day} setDay={setDay} onNextPressed={() => setUIState(UIState.Progress)} />}
         {uiState === UIState.Progress && <Progress />}
       </div>
     </div>
@@ -186,9 +188,10 @@ interface PlanProps {
   plansIdsId: number | null;
   tasksIdsId: number | null;
   onBackPressed: () => void;
+  onNextPressed: () => void;
 }
 
-function Plan({ plans, plansIdsId, tasksIdsId, onBackPressed }: PlanProps) {
+function Plan({ plans, plansIdsId, tasksIdsId, onBackPressed, onNextPressed }: PlanProps) {
   const [showAllPlans, setShowAllPlans] = useState(false);
 
   const handleAcceptPlan = async () => {
@@ -210,6 +213,7 @@ function Plan({ plans, plansIdsId, tasksIdsId, onBackPressed }: PlanProps) {
     const jsonData = await response.json();
     console.log(jsonData);
     alert("お手伝いプランを確定しました！これから毎日頑張りましょう！");
+    onNextPressed();
   }
 
   return (
@@ -270,8 +274,78 @@ function Plan({ plans, plansIdsId, tasksIdsId, onBackPressed }: PlanProps) {
   );
 }
 
-function Record() {
-  return <div>Record</div>;
+interface RecordProps {
+  day: number;
+  setDay: (day: number) => void;
+  onNextPressed: () => void;
+}
+
+function Record({ day, setDay, onNextPressed }: RecordProps) {
+  const [plansToday, setPlansToday] = useState<Task[]>([]);
+
+  useEffect(() => {
+    const fetchTodayPlans = async () => {
+      const response = await fetch(postTodayPlansApi(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          day: day,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const jsonData = await response.json();
+      console.log(jsonData);
+      setPlansToday(jsonData["plans_today"]);
+    };
+    fetchTodayPlans();
+  }, [day]);
+
+  const handleSubmit = async () => {
+    onNextPressed();
+  }
+
+  return (
+    <>
+      <div className="title">
+        <h1>日々の記録</h1>
+        <p>今日してくれたお手伝いを記録しましょう</p>
+      </div>
+
+      {plansToday.length === 0 ? (
+        <div>
+          <h2>今日のお手伝いはありません</h2>
+          <p>明日も頑張りましょう！</p>
+        </div>
+      ) : (
+        <div>
+          <h2>{day}日目のお手伝いプラン</h2>
+          {plansToday.map((task, index) => {
+            return (
+              <div key={index}>
+                <input type="checkbox" />
+                {task.task} ({task.point}pt)
+              </div>
+            );
+          }
+          )}
+          <button onClick={handleSubmit}>
+            記録する
+          </button>
+        </div>
+      )}
+
+      <div className="buttons">
+        <button onClick={() => setDay((prev: number) => Number(prev) - 1)}>前の日へ</button>
+        <button onClick={() => setDay((prev: number) => Number(prev) + 1)}>次の日へ</button>
+      </div>
+    </>
+  );
 }
 
 function Progress() {
