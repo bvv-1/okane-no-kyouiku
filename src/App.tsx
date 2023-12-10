@@ -3,6 +3,7 @@ import {
   postSuggestPlanApi,
   getTotalProgressApi,
   getGoalApi,
+  postAcceptPlanApi,
 } from "./utils/links";
 import "./App.css";
 import imgCongrats from "./assets/kusudama_1170.png";
@@ -19,8 +20,8 @@ export default function App() {
       <button onClick={() => setUIState(UIState.Progress)}>進捗</button>
 
       <div>
-        {uiState === UIState.Start && <Start setPlans={setPlans} />}
-        {uiState === UIState.Plan && <Plan plans={plans} />}
+        {uiState === UIState.Start && <Start setPlans={setPlans} onNextPressed={() => setUIState(UIState.Plan)} />}
+        {uiState === UIState.Plan && <Plan plans={plans} onBackPressed={() => setUIState(UIState.Start)} />}
         {uiState === UIState.Record && <Record />}
         {uiState === UIState.Progress && <Progress />}
       </div>
@@ -30,10 +31,11 @@ export default function App() {
 
 interface StartProps {
   setPlans: (plans: Plan[]) => void;
+  onNextPressed: () => void;
 }
 
 // ここからをメインでいじってください!
-function Start({ setPlans }: StartProps) {
+function Start({ setPlans, onNextPressed }: StartProps) {
   const [itemName, setItemName] = useState("");
   const [requiredPoint, setRequiredPoint] = useState(100);
   const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }]);
@@ -88,8 +90,9 @@ function Start({ setPlans }: StartProps) {
     }
 
     const jsonData = await response.json();
-    alert("登録しました！");
     setPlans(jsonData["plans"]);
+    alert("登録しました！");
+    onNextPressed();
   };
 
   return (
@@ -160,15 +163,46 @@ function Start({ setPlans }: StartProps) {
 
 interface PlanProps {
   plans: Plan[];
+  onBackPressed: () => void;
 }
 
-function Plan({ plans }: PlanProps) {
+function Plan({ plans, onBackPressed }: PlanProps) {
   const [showAllPlans, setShowAllPlans] = useState(false);
+
+  const handleAcceptPlan = async () => {
+    const response = await fetch(postAcceptPlanApi(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        plans: plans.map((plan) => {
+          return {
+            day: plan.day,
+            plans_today: plan.plans_today.map((task) => {
+              return {
+                task: task.task,
+                point: task.point,
+              };
+            }),
+          };
+        }),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const jsonData = await response.json();
+    console.log(jsonData);
+    alert("お手伝いプランを確定しました！これから毎日頑張りましょう！");
+  }
 
   return (
     <>
       <div className="title">
-        <h1>計画</h1>
+        <h1>お手伝いプラン</h1>
         <p>AIが作成したお手伝いプランです</p>
       </div>
 
@@ -212,8 +246,8 @@ function Plan({ plans }: PlanProps) {
       )}
 
       <div className="buttons">
-        <button>計画を作り直す</button>
-        <button>計画を確定する</button>
+        <button onClick={() => onBackPressed()}>計画を作り直す</button>
+        <button onClick={handleAcceptPlan}>計画を確定する</button>
         <p>この計画で本当にいいか、必ず子どもと一緒に確認しましょう</p>
       </div>
     </>
