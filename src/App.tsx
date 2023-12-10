@@ -23,7 +23,6 @@ export default function App() {
 
   return (
     <div className="App">
-      {data}
       <button onClick={() => setUIState(UIState.Start)}>Start</button>
       <button onClick={() => setUIState(UIState.Plan)}>Plan</button>
       <button onClick={() => setUIState(UIState.Record)}>Record</button>
@@ -35,6 +34,7 @@ export default function App() {
         {uiState === UIState.Record && <Record />}
         {uiState === UIState.Progress && <Progress />}
       </div>
+      {data}
     </div>
   )
 }
