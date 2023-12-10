@@ -5,6 +5,7 @@ import {
   getGoalApi,
   postAcceptPlanApi,
   postTodayPlansApi,
+  postSubmitProgressApi,
 } from "./utils/links";
 import "./App.css";
 import imgCongrats from "./assets/kusudama_1170.png";
@@ -306,7 +307,41 @@ function Record({ day, setDay, onNextPressed }: RecordProps) {
     fetchTodayPlans();
   }, [day]);
 
+  // 新しいステート変数を追加
+  const [checkedIndices, setCheckedIndices] = useState<number[]>([]);
+
+  // チェックボックスの状態が変更されたときのハンドラ
+  const handleCheckboxChange = (index: number) => {
+    // チェックがついている場合は追加、ついていない場合は削除
+    setCheckedIndices((prevIndices) =>
+      prevIndices.includes(index)
+        ? prevIndices.filter((prevIndex) => prevIndex !== index)
+        : [...prevIndices, index]
+    );
+  };
+
   const handleSubmit = async () => {
+    const totalPoints = plansToday.filter((_, index) => checkedIndices.includes(index)).reduce((acc, cur) => acc + cur.point, 0);
+
+    const response = await fetch(postSubmitProgressApi(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        day: day,
+        total_points: totalPoints,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const jsonData = await response.json();
+    console.log(jsonData);
+    alert("記録しました！");
+    
     onNextPressed();
   }
 
@@ -328,7 +363,12 @@ function Record({ day, setDay, onNextPressed }: RecordProps) {
           {plansToday.map((task, index) => {
             return (
               <div key={index}>
-                <input type="checkbox" />
+                {/* チェックボックスの状態を管理 */}
+                <input
+                  type="checkbox"
+                  checked={checkedIndices.includes(index)}
+                  onChange={() => handleCheckboxChange(index)}
+                />
                 {task.task} ({task.point}pt)
               </div>
             );
