@@ -27,3 +27,7 @@ export const postSubmitProgressApi = () => {
 export const getTotalProgressApi = () => {
 	return `${API_BASE_URL}api/v1/points`
 }
+
+export const postTodayPlansApi = () => {
+	return `${API_BASE_URL}api/v1/plans/today`
+}
