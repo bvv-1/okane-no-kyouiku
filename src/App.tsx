@@ -17,7 +17,7 @@ export default function App() {
       const jsonData = await response.json()
       setData(jsonData["message"])
     }
-    
+
     fetchHelloWorld()
   }, [])
 
@@ -43,10 +43,28 @@ export default function App() {
 function Start() {
   const [itemName, setItemName] = useState("")
   const [requiredPoint, setRequiredPoint] = useState(100)
+  const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }])
+
+  const handleOnAddTask = () => {
+    setTasks([...tasks, { task: "", point: 0 }])
+  }
+
+  const handleOnChangeTask = (index: number, task: string) => {
+    const newTasks = [...tasks]
+    newTasks[index].task = task
+    setTasks(newTasks)
+  }
+
+  const handleOnChangePoint = (index: number, point: number) => {
+    const newTasks = [...tasks]
+    newTasks[index].point = point
+    setTasks(newTasks)
+  }
 
   const handleOnClear = () => {
     setItemName("")
     setRequiredPoint(100)
+    setTasks([{ task: "", point: 0 }])
   }
 
   const handleOnNext = async () => {
@@ -63,7 +81,12 @@ function Start() {
       body: JSON.stringify({
         goal: itemName,
         goal_points: requiredPoint,
-        tasks: [],
+        tasks: tasks.map((task) => {
+          return {
+            task: task.task,
+            point: task.point,
+          }
+        }),
       }),
     })
 
@@ -76,30 +99,70 @@ function Start() {
     alert("登録しました！")
   }
 
-  return (<>
-    <div className="title">
-      <h1>登録</h1>
-      <p>子どもがほしい物とそれに必要なお手伝いポイントを設定してください</p>
-    </div>
-    
-    <h3>ほしい物</h3>
-    <input type="text" placeholder="商品名を入力してください" value={itemName} onChange={(e) => {setItemName(e.target.value)}} />
+  return (
+    <>
+      <div className="title">
+        <h1>登録</h1>
+        <p>子どもがほしい物とそれに必要なお手伝いポイントを設定してください</p>
+      </div>
 
-    <h3>必要なお手伝いポイント</h3>
-    <input type="number" placeholder="必要なポイント(1~1000)" value={requiredPoint} onChange={(e) => {setRequiredPoint(Number(e.target.value))}} />
+      <h3>ほしい物</h3>
+      <input
+        type="text"
+        placeholder="商品名を入力してください"
+        value={itemName}
+        onChange={(e) => {
+          setItemName(e.target.value)
+        }}
+      />
 
-    <br />
+      <h3>必要なお手伝いポイント</h3>
+      <input
+        type="number"
+        placeholder="必要なポイント(1~1000)"
+        value={requiredPoint}
+        onChange={(e) => {
+          setRequiredPoint(Number(e.target.value))
+        }}
+      />
 
-    <div className="buttons">
-      <button onClick={handleOnClear}>
-        Clear
-      </button>
+      <h3>お手伝いタスク</h3>
+      <p>お手伝い内容とそれに必要なポイントを設定してください</p>
 
-      <button onClick={handleOnNext}>
-        Next
-      </button>
-    </div>
-  </>)
+      <div className="tasks">
+        {tasks.map((task, index) => {
+          return (
+            <div key={index}>
+              <input
+                type="text"
+                placeholder="タスク名"
+                value={task.task}
+                onChange={(e) => {
+                  handleOnChangeTask(index, e.target.value)
+                }}
+              />
+              <input
+                type="number"
+                placeholder="ポイント"
+                value={task.point}
+                onChange={(e) => {
+                  handleOnChangePoint(index, Number(e.target.value))
+                }}
+              />
+            </div>
+          )
+        })}
+        <button onClick={handleOnAddTask}>タスクを追加</button>
+      </div>
+      <br />
+
+      <div className="buttons">
+        <button onClick={handleOnClear}>Clear</button>
+
+        <button onClick={handleOnNext}>Next</button>
+      </div>
+    </>
+  )
 }
 
 function Plan() {
@@ -121,4 +184,9 @@ const UIState = {
   Record: 2,
   Progress: 3,
 } as const
-type UIState = typeof UIState[keyof typeof UIState]
+type UIState = (typeof UIState)[keyof typeof UIState]
+
+type Task = {
+  task: string
+  point: number
+}
