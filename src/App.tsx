@@ -13,6 +13,7 @@ export default function App() {
   const [plans, setPlans] = useState<Plan[]>([]);
 
   return (<>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
     <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet"></link>
@@ -104,69 +105,71 @@ function Start({ setPlans, onNextPressed }: StartProps) {
 
   return (
     <>
-      <div className="title">
-        <h1>登録</h1>
-        <p>子どもがほしい物とそれに必要なお手伝いポイントを設定してください</p>
-      </div>
+      <div id="div">
+        <div className="title">
+          <h1>登録</h1>
+          <p>子どもがほしい物とそれに必要なお手伝いポイントを設定してください</p>
+        </div>
 
-      <h3>ほしい物</h3>
-      <input
-        className="inputGet"
-        type="text"
-        placeholder="商品名を入力してください"
-        value={itemName}
-        onChange={(e) => {
-          setItemName(e.target.value);
-        }}
-      />
+        <h3>ほしい物</h3>
+        <input
+          className="inputGet"
+          type="text"
+          placeholder="商品名を入力してください"
+          value={itemName}
+          onChange={(e) => {
+            setItemName(e.target.value);
+          }}
+        />
 
-      <h3>必要なお手伝いポイント</h3>
-      <input
-        type="number"
-        className="inputGet"
-        placeholder="必要なポイント (1~1000)"
-        value={requiredPoint}
-        onChange={(e) => {
-          setRequiredPoint(Number(e.target.value));
-        }}
-      />
+        <h3>必要なお手伝いポイント</h3>
+        <input
+          type="number"
+          className="inputGet"
+          placeholder="必要なポイント (1~1000)"
+          value={requiredPoint}
+          onChange={(e) => {
+            setRequiredPoint(Number(e.target.value));
+          }}
+        />
 
-      <h3>お手伝いタスク</h3>
-      <p>お手伝い内容とそれに必要なポイントを設定してください</p>
+        <h3>お手伝いタスク</h3>
+        <p>お手伝い内容とそれに必要なポイントを設定してください</p>
 
-      <div className="tasks">
-        {tasks.map((task, index) => {
-          return (
-            <div key={index}>
-              <input
-                className="inputGetText"
-                type="text"
-                placeholder="タスク名"
-                value={task.task}
-                onChange={(e) => {
-                  handleOnChangeTask(index, e.target.value);
-                }}
-              />
-              <input
-                type="number"
-                className="inputGetNumber"
-                placeholder="ポイント"
-                value={task.point}
-                onChange={(e) => {
-                  handleOnChangePoint(index, Number(e.target.value));
-                }}
-              />
-            </div>
-          );
-        })}
-        <button id="taskbutton" onClick={handleOnAddTask}>タスクを追加</button>
-      </div>
-      <br />
+        <div className="tasks">
+          {tasks.map((task, index) => {
+            return (
+              <div key={index}>
+                <input
+                  className="inputGetText"
+                  type="text"
+                  placeholder="タスク名"
+                  value={task.task}
+                  onChange={(e) => {
+                    handleOnChangeTask(index, e.target.value);
+                  }}
+                />
+                <input
+                  type="number"
+                  className="inputGetNumber"
+                  placeholder="ポイント"
+                  value={task.point}
+                  onChange={(e) => {
+                    handleOnChangePoint(index, Number(e.target.value));
+                  }}
+                />
+              </div>
+            );
+          })}
+          <button id="taskbutton" onClick={handleOnAddTask}>タスクを追加</button>
+        </div>
+        <br />
 
-      <div className="buttons">
-        <button onClick={handleOnClear}>Clear</button>
+        <div className="buttons">
+          <button onClick={handleOnClear}>Clear</button>
 
-        <button onClick={handleOnNext}>Next</button>
+          <button onClick={handleOnNext}>Next</button>
+        </div>
       </div>
     </>
   );
@@ -212,54 +215,57 @@ function Plan({ plans, onBackPressed }: PlanProps) {
 
   return (
     <>
-      <div className="title">
-        <h1>お手伝いプラン</h1>
-        <p>AIが作成したお手伝いプランです</p>
-      </div>
-
-      {/* TODO: 何日に一回なにをする、みたいなサマリーを表示 */}
-
-      <button onClick={() => setShowAllPlans(!showAllPlans)}>
-        {showAllPlans ? "表示しない" : "日々の計画を表示する"}
-      </button>
-      {showAllPlans && (
-        <div>
-          <h3>日々の計画</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>日付</th>
-                <th>お手伝いタスク</th>
-                <th>合計ポイント</th>
-              </tr>
-            </thead>
-            <tbody>
-              {plans.map((plan, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{plan.day}日目</td>
-                    <td>
-                      {plan.plans_today.map((task, index) => {
-                        return (
-                          <div key={index}>
-                            {task.task} ({task.point}pt)
-                          </div>
-                        );
-                      })}
-                    </td>
-                    <td>{plan.plans_today.reduce((acc, cur) => acc + cur.point, 0)}pt</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      <div id="div">
+        <div className="title">
+          <h1>お手伝いプラン</h1>
+          <p>AIが作成したお手伝いプランです</p>
         </div>
-      )}
 
-      <div className="buttons">
-        <button onClick={() => onBackPressed()}>計画を作り直す</button>
-        <button onClick={handleAcceptPlan}>計画を確定する</button>
-        <p>この計画で本当にいいか、必ず子どもと一緒に確認しましょう</p>
+        {/* TODO: 何日に一回なにをする、みたいなサマリーを表示 */}
+
+        <button id="hyouzi" onClick={() => setShowAllPlans(!showAllPlans)}>
+          {showAllPlans ? "表示しない" : "日々の計画を表示する"}
+        </button>
+        {showAllPlans && (
+          <div>
+            <h3>日々の計画</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>お手伝いタスク</th>
+                  <th>合計ポイント</th>
+                </tr>
+              </thead>
+              <tbody>
+                {plans.map((plan, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{plan.day}日目</td>
+                      <td>
+                        {plan.plans_today.map((task, index) => {
+                          return (
+                            <div key={index}>
+                              {task.task} ({task.point}pt)
+                            </div>
+                          );
+                        })}
+                      </td>
+                      <td>{plan.plans_today.reduce((acc, cur) => acc + cur.point, 0)}pt</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <p className="kakuninn">この計画で本当にいいか、必ず子どもと一緒に確認しましょう</p>
+
+        <div className="buttons">
+
+          <button onClick={() => onBackPressed()}>計画を作り直す</button>
+          <button onClick={handleAcceptPlan}>計画を確定する</button>
+        </div>
       </div>
     </>
   );
@@ -303,41 +309,43 @@ function Progress() {
 
   return (
     <>
-      <div className="title">
-        <h1>進捗</h1>
-        <p>現在の進捗状況を確認できます</p>
+      <div id="div">
+        <div className="title">
+          <h1>進捗</h1>
+          <p>現在の進捗状況を確認できます</p>
+        </div>
+
+        {goal && totalProgress >= goal.goal_points ? (
+          <div>
+            <h2>目標達成！</h2>
+            <p>
+              おめでとうございます！マネーリテラシーの向上に向けて素晴らしい成果を上げましたね。お子さんの努力は本当に素晴らしいものです。これからもこの調子でスキルを磨いていきましょう。よく頑張りました！
+            </p>
+            <img src={imgCongrats} alt="おめでとう" width={300} />
+          </div>
+        ) : (
+          <div className="sintyoku">
+            <div className="sintyokuGet">
+              <h3>ほしい物</h3>
+              <p>{goal ? goal.goal : "未設定"}</p>
+            </div>
+            <div className="sintyokuPoint">
+              <div>
+                <h3>必要ポイント</h3>
+                <p><span>{goal ? `${goal.goal_points}` : "未設定"}</span>pt</p>
+              </div>
+              <div>
+                <h3>現在のポイント</h3>
+                <p><span>{totalProgress}</span>pt</p>
+              </div>
+            </div>
+
+
+
+            {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
+          </div>
+        )}
       </div>
-
-      {goal && totalProgress >= goal.goal_points ? (
-        <div>
-          <h2>目標達成！</h2>
-          <p>
-            おめでとうございます！マネーリテラシーの向上に向けて素晴らしい成果を上げましたね。お子さんの努力は本当に素晴らしいものです。これからもこの調子でスキルを磨いていきましょう。よく頑張りました！
-          </p>
-          <img src={imgCongrats} alt="おめでとう" width={300} />
-        </div>
-      ) : (
-        <div className="sintyoku">
-          <div className="sintyokuGet">
-            <h3>ほしい物</h3>
-            <p>{goal ? goal.goal : "未設定"}</p>
-          </div>
-          <div className="sintyokuPoint">
-            <div>
-              <h3>必要ポイント</h3>
-              <p><span>{goal ? `${goal.goal_points}` : "未設定"}</span>pt</p>
-            </div>
-            <div>
-              <h3>現在のポイント</h3>
-              <p><span>{totalProgress}</span>pt</p>
-            </div>
-          </div>
-
-
-
-          {/* TODO: グラフでダッシュボードみたいに可視化できてたらかっこいい */}
-        </div>
-      )}
     </>
   );
 }

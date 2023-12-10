@@ -45,6 +45,10 @@ body {
 
 }
 
+#div{
+  padding-bottom: 32px;
+}
+
 .App button {
   width: 25%;
   height: 40px;
@@ -66,8 +70,25 @@ body {
 
 
 
-.buttons {
-  background-color: #ffb142;
+.buttons button{
+  width: 160px;
+  height: 40px;
+  margin: 16px 8px auto 8px;
+  border: none;
+  background-color: var(--color-skyblue);
+  box-shadow: 0 4px 0 0 #246a7a;
+}
+
+.buttons button:first-child{
+  background-color: var(--color-white);
+  color: var(--color-blue);
+  box-shadow: 0 4px 0 0 #bfb5a6;
+}
+
+.buttons button:first-child:hover{
+  background-color: var(--color-white);
+  color: var(--color-blue);
+  box-shadow: 0 4px 0 0  var(--color-white);
 }
 
 /* タイポグラフィ */
@@ -150,6 +171,7 @@ p {
   background-color: var(--color-red);
   box-shadow: 0 4px 0 0 #852d36;
   border: none;
+  border-radius: 20px;
 }
 
 #taskbutton:hover {
@@ -188,3 +210,42 @@ span{
   font-size: 1.4em;
   color: var(--color-yellow);
 }
+
+#hyouzi{
+  margin-bottom: 32px;
+  width: 160px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--color-blue);
+}
+
+#hyouzi:hover{
+  background-color: var(--color-skyblue);
+}
+
+table{
+  width: 560px;
+  margin: 16px auto 40px auto;
+  text-align: center;
+
+}
+
+th{
+  background-color: #3891A6;
+  color: white;
+}
+
+tbody tr{
+  border-bottom: 0.2px var(--color-blue) solid;
+}
+
+.buttons p{
+  border-bottom: var(--color-red) dotted 3px;
+  
+}
+
+.kakuninn{
+  border-bottom: dotted var(--color-red) 2px;
+}
+
