@@ -1,16 +1,53 @@
+:root {
+  --color-red: #a23e48;
+  --color-yellow: #fa9f42;
+  --color-blue: #2b4162;
+  --color-white: #f0f4ef;
+  --color-skyblue: #3891A6;
+}
+
+html {
+  /* background: linear-gradient(0deg,var(--color-skyblue),var(--color-skyblue) 1px,var(--color-white) 1px,var(--color-white) 10px); */
+  font-size: 18px;
+  font-family: 'Yusei Magic', sans-serif;
+  ;
+}
+
 body {
-  margin: 0;
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: var(--color-blue);
 }
 
 .App {
   text-align: center;
   background-color: #f7f1e3;
-  color: #555;
+  color: var(--color-blue);
+
 }
 
-.title {
-  background-color: #ffb142;
+.App button {
+  width: 25%;
+  height: 40px;
+  background-color: var(--color-skyblue);
+  color: var(--color-white);
+  border: none;
+  border-right: 2px dotted var(--color-white);
+
 }
+
+.App button:nth-child(4) {
+  border: none;
+}
+
+.App button:hover {
+  background-color: var(--color-blue);
+
+}
+
+
 
 .buttons {
   background-color: #ffb142;
@@ -19,30 +56,94 @@ body {
 /* タイポグラフィ */
 h1 {
   margin: 0;
-  font-size: 24px;
+  height: 160px;
+  font-size: 3em;
   font-weight: bold;
-	color: #7C2D12;
+  color: var(--color-white);
+  text-align: center;
+  line-height: 160px;
+  background-color: var(--color-yellow);
 }
+
+.title p {
+  height: 50px;
+  text-align: center;
+  line-height: 30px;
+
+
+}
+
 h2 {
   margin: 0;
-  font-size: 20px;
   font-weight: bold;
-	color: #7C2D12;
+  color: #7C2D12;
 }
+
 h3 {
   margin: 0;
-  font-size: 16px;
   font-weight: bold;
-	color: #7C2D12;
+  color: var(--color-red);
+  margin-bottom: 8px;
 }
+
 p {
-  margin: 0;
-  font-size: 12px;
+  margin-bottom: 8px;
   font-weight: normal;
 }
-.small {
-  font-size: 10px;
+
+.small {}
+
+.caption {}
+
+.inputGet {
+  width: 356px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: white;
+  border: var(--color-yellow) 2px solid;
+  padding-left: 15px;
+  margin-bottom: 24px;
+
 }
-.caption {
-  font-size: 6px;
+
+
+
+.inputGetText{
+  width: 280px;
+  height: 30px;
+  border-radius: 30px;
+  padding-left: 15px;
+  background-color: var(--color-white);
+  margin-bottom: 24px;
+  border: var(--color-yellow) 2px solid;
+background-color: white;
+}
+
+.inputGetNumber{
+  width: 40px;
+  height: 30px;
+  border-radius: 30px;
+  padding-left: 15px;
+  background-color: var(--color-white);
+  margin-bottom: 24px;
+  border: var(--color-yellow) 2px solid;
+  background-color: white;
+}
+
+#taskbutton{
+
+  width: 160px;
+  height: 40px;
+  background-color: var(--color-red);
+  box-shadow: 0 4px 0 0 #852d36;
+  border: none;
+}
+
+#taskbutton:hover{
+  background-color: var(--color-white);
+  color: var(--color-skyblue);
+  border: none;
+  box-shadow: none;
+  border: dotted 2px var(--color-skyblue);
+
 }
