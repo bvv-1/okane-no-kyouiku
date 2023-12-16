@@ -9,6 +9,6 @@ export type Plan = {
 }
 
 export type Goal = {
-  goal: string
-  goal_points: number
+  name: string
+  point: number
 }

@@ -18,6 +18,10 @@ export const putAcceptSuggestedPlansApi = () => {
   return `${API_BASE_URL}api/v1/plans/suggested`
 }
 
+export const getCheckProgressApi = () => {
+  return `${API_BASE_URL}api/v1/goals/progress`
+}
+
 // old
 
 export const postSuggestPlanApi = () => {
@@ -32,9 +36,9 @@ export const getGoalApi = () => {
   return `${API_BASE_URL}api/v1/goals`
 }
 
-export const getCheckProgressApi = () => {
-  return `${API_BASE_URL}api/v1/plans/check`
-}
+// export const getCheckProgressApi = () => {
+//   return `${API_BASE_URL}api/v1/plans/check`
+// }
 
 export const postSubmitProgressApi = () => {
   return `${API_BASE_URL}api/v1/plans/submit`

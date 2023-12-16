@@ -96,7 +96,7 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
                   checked={checkedIndices.includes(index)}
                   onChange={() => handleCheckboxChange(index)}
                 />
-                {task.task} ({task.point}pt)
+                {task.name} ({task.point}pt)
               </div>
             )
           })}

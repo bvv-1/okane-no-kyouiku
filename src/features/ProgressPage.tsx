@@ -1,15 +1,44 @@
 import { useEffect, useState } from "react"
 import { Goal } from "../utils/types"
-import { getGoalApi, getTotalProgressApi } from "../utils/links"
+import { getCheckProgressApi } from "../utils/links"
 import imgCongrats from "../assets/kusudama_1170.png"
 
 export default function ProgressPage() {
-  const [totalProgress, setTotalProgress] = useState(-1)
+  const [totalPoint, setTotalPoint] = useState(-1)
   const [goal, setGoal] = useState<Goal | null>(null)
+  const [onTrack, setOnTrack] = useState(true)
+
+  // useEffect(() => {
+  //   const fetchGoal = async () => {
+  //     const response = await fetch(getGoalApi())
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`)
+  //     }
+
+  //     const jsonData = await response.json()
+  //     console.log(jsonData)
+  //     setGoal({ goal: jsonData["goal"], goal_points: jsonData["goal_points"] })
+  //   }
+  //   fetchGoal()
+
+  //   const fetchTotalProgress = async () => {
+  //     const response = await fetch(getTotalProgressApi())
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`)
+  //     }
+
+  //     const jsonData = await response.json()
+  //     console.log(jsonData)
+  //     setTotalProgress(jsonData["points"])
+  //   }
+  //   fetchTotalProgress()
+  // }, [])
 
   useEffect(() => {
-    const fetchGoal = async () => {
-      const response = await fetch(getGoalApi())
+    const fetchCheckProgress = async () => {
+      const response = await fetch(getCheckProgressApi())
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
@@ -17,22 +46,11 @@ export default function ProgressPage() {
 
       const jsonData = await response.json()
       console.log(jsonData)
-      setGoal({ goal: jsonData["goal"], goal_points: jsonData["goal_points"] })
+      setTotalPoint(jsonData["total_point"])
+      setGoal(jsonData["goal"])
+      setOnTrack(jsonData["on_track"])
     }
-    fetchGoal()
-
-    const fetchTotalProgress = async () => {
-      const response = await fetch(getTotalProgressApi())
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const jsonData = await response.json()
-      console.log(jsonData)
-      setTotalProgress(jsonData["points"])
-    }
-    fetchTotalProgress()
+    fetchCheckProgress()
   }, [])
 
   return (
@@ -43,7 +61,9 @@ export default function ProgressPage() {
           <p>現在の進捗状況を確認できます</p>
         </div>
 
-        {goal && totalProgress >= goal.goal_points ? (
+        {onTrack ? <div>順調です！</div> : <div>見直しをしてみませんか？</div>}
+
+        {goal && totalPoint >= goal.point ? (
           <div>
             <h2>目標達成！</h2>
             <p>
@@ -55,19 +75,19 @@ export default function ProgressPage() {
           <div className="sintyoku">
             <div className="sintyokuGet">
               <h3>ほしい物</h3>
-              <p>{goal ? goal.goal : "未設定"}</p>
+              <p>{goal ? goal.name : "未設定"}</p>
             </div>
             <div className="sintyokuPoint">
               <div>
                 <h3>必要ポイント</h3>
                 <p>
-                  <span>{goal ? `${goal.goal_points}` : "未設定"}</span>pt
+                  <span>{goal ? `${goal.point}` : "未設定"}</span>pt
                 </p>
               </div>
               <div>
                 <h3>現在のポイント</h3>
                 <p>
-                  <span>{totalProgress}</span>pt
+                  <span>{totalPoint}</span>pt
                 </p>
               </div>
             </div>
