@@ -34,16 +34,6 @@ export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
   }, [])
 
   const handleAcceptPlan = async () => {
-    // const response = await fetch(postAcceptPlanApi(), {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     plans_ids_id: plansIdsId,
-    //     tasks_ids_id: tasksIdsId,
-    //   }),
-    // })
     const response = await fetch(putAcceptSuggestedPlansApi(), {
       method: "PUT",
       headers: {
@@ -58,6 +48,7 @@ export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
     const jsonData = await response.json()
     console.log(jsonData)
     alert("お手伝いプランを確定しました！これから毎日頑張りましょう！")
+
     onNextPressed()
   }
 
