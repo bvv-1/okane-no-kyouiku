@@ -3,31 +3,27 @@
   --color-yellow: #fa9f42;
   --color-blue: #2b4162;
   --color-white: #f0f4ef;
-  --color-skyblue: #3891A6;
+  --color-skyblue: #3891a6;
 }
 
 @font-face {
   font-family: number;
-  src: 'Yusei Magic';
+  src: "Yusei Magic";
   unicode-range: U+0030-0039;
   font-size: 900px;
 }
 
 html {
-  background-image:
-    repeating-linear-gradient(90deg,
+  background-image: repeating-linear-gradient(
+      90deg,
       var(--color-skyblue),
       var(--color-skyblue) 1px,
       transparent 1px,
-      transparent 32px),
-    repeating-linear-gradient(0deg,
-      #000,
-      #000 1px,
-      #fff 1px,
-      #fff 32px);
+      transparent 32px
+    ),
+    repeating-linear-gradient(0deg, #000, #000 1px, #fff 1px, #fff 32px);
   font-size: 18px;
-  font-family: 'Yusei Magic', sans-serif;
-  ;
+  font-family: "Yusei Magic", sans-serif;
 }
 
 body {
@@ -42,10 +38,9 @@ body {
   text-align: center;
   background-color: #f7f1e3;
   color: var(--color-blue);
-
 }
 
-#div{
+#div {
   padding-bottom: 32px;
 }
 
@@ -56,7 +51,6 @@ body {
   color: var(--color-white);
   border: none;
   border-right: 2px dotted var(--color-white);
-
 }
 
 .App button:nth-child(4) {
@@ -65,12 +59,9 @@ body {
 
 .App button:hover {
   background-color: var(--color-blue);
-
 }
 
-
-
-.buttons button{
+.buttons button {
   width: 160px;
   height: 40px;
   margin: 16px 8px auto 8px;
@@ -79,16 +70,16 @@ body {
   box-shadow: 0 4px 0 0 #246a7a;
 }
 
-.buttons button:first-child{
+.buttons button:first-child {
   background-color: var(--color-white);
   color: var(--color-blue);
   box-shadow: 0 4px 0 0 #bfb5a6;
 }
 
-.buttons button:first-child:hover{
+.buttons button:first-child:hover {
   background-color: var(--color-white);
   color: var(--color-blue);
-  box-shadow: 0 4px 0 0  var(--color-white);
+  box-shadow: 0 4px 0 0 var(--color-white);
 }
 
 /* タイポグラフィ */
@@ -107,14 +98,12 @@ h1 {
   height: 50px;
   text-align: center;
   line-height: 30px;
-
-
 }
 
 h2 {
   margin: 0;
   font-weight: bold;
-  color: #7C2D12;
+  color: #7c2d12;
 }
 
 h3 {
@@ -137,10 +126,7 @@ p {
   border: var(--color-yellow) 2px solid;
   padding-left: 15px;
   margin-bottom: 24px;
-
 }
-
-
 
 .inputGetText {
   width: 280px;
@@ -165,7 +151,6 @@ p {
 }
 
 #taskbutton {
-
   width: 160px;
   height: 40px;
   background-color: var(--color-red);
@@ -180,39 +165,37 @@ p {
   border: none;
   box-shadow: none;
   border: dotted 2px var(--color-skyblue);
-
 }
 
-.sintyoku{
+.sintyoku {
   max-width: 400px;
   width: 90%;
   height: auto;
   display: flex;
   padding: 30px;
   margin: 0 auto 40px auto;
-
 }
 
-.sintyokuGet{
+.sintyokuGet {
   width: 35%;
   text-align: center;
 }
 
-.sintyoku p{
+.sintyoku p {
   font-size: 32px;
   margin: 0 0 16px 0;
 }
 
-.sintyokuPoint{
+.sintyokuPoint {
   width: 65%;
 }
 
-span{
+span {
   font-size: 1.4em;
   color: var(--color-yellow);
 }
 
-#hyouzi{
+#hyouzi {
   margin-bottom: 32px;
   width: 160px;
   height: 40px;
@@ -221,33 +204,30 @@ span{
   background-color: var(--color-blue);
 }
 
-#hyouzi:hover{
+#hyouzi:hover {
   background-color: var(--color-skyblue);
 }
 
-table{
+table {
   max-width: 400px;
   width: 90%;
   margin: 16px auto 40px auto;
   text-align: center;
-
 }
 
-th{
-  background-color: #3891A6;
+th {
+  background-color: #3891a6;
   color: white;
 }
 
-tbody tr{
+tbody tr {
   border-bottom: 0.2px var(--color-blue) solid;
 }
 
-.buttons p{
+.buttons p {
   border-bottom: var(--color-red) dotted 3px;
-  
 }
 
-.kakuninn{
+.kakuninn {
   border-bottom: dotted var(--color-red) 2px;
 }
-
