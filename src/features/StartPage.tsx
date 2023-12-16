@@ -13,15 +13,15 @@ interface StartProps {
 export default function StartPage({ onNextPressed }: StartProps) {
   const [itemName, setItemName] = useState("")
   const [requiredPoint, setRequiredPoint] = useState(100)
-  const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }])
+  const [tasks, setTasks] = useState<Task[]>([{ name: "", point: 0 }])
 
   const handleOnAddTask = () => {
-    setTasks([...tasks, { task: "", point: 0 }])
+    setTasks([...tasks, { name: "", point: 0 }])
   }
 
   const handleOnChangeTask = (index: number, task: string) => {
     const newTasks = [...tasks]
-    newTasks[index].task = task
+    newTasks[index].name = task
     setTasks(newTasks)
   }
 
@@ -34,7 +34,7 @@ export default function StartPage({ onNextPressed }: StartProps) {
   const handleOnClear = () => {
     setItemName("")
     setRequiredPoint(100)
-    setTasks([{ task: "", point: 0 }])
+    setTasks([{ name: "", point: 0 }])
   }
 
   // const handleOnNext = async () => {
@@ -90,7 +90,7 @@ export default function StartPage({ onNextPressed }: StartProps) {
         },
         tasks: tasks.map((task) => {
           return {
-            name: task.task,
+            name: task.name,
             point: task.point,
           }
         }),
@@ -148,7 +148,7 @@ export default function StartPage({ onNextPressed }: StartProps) {
                   className="inputGetText"
                   type="text"
                   placeholder="タスク名"
-                  value={task.task}
+                  value={task.name}
                   onChange={(e) => {
                     handleOnChangeTask(index, e.target.value)
                   }}

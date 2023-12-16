@@ -1,11 +1,11 @@
 export type Task = {
-  task: string
+  name: string
   point: number
 }
 
 export type Plan = {
   day: number
-  plans_today: Task[]
+  tasks_today: Task[]
 }
 
 export type Goal = {

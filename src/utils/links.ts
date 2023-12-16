@@ -8,6 +8,10 @@ export const postSubmitGoalAndTaskApi = () => {
   return `${API_BASE_URL}api/v1/goals`
 }
 
+export const getSuggestedPlansApi = () => {
+  return `${API_BASE_URL}api/v1/plans/suggested`
+}
+
 export const postSuggestPlanApi = () => {
   return `${API_BASE_URL}api/v2/plans/suggest`
 }
