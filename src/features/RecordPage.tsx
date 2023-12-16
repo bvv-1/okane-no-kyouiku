@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { Task } from "../utils/types"
-import { postTodayPlansApi, postSubmitProgressApi } from "../utils/links"
+import {
+  postSubmitProgressApi,
+  getTodayPlanApi,
+  // postSubmitDailyTasksApi,
+} from "../utils/links"
 
 interface RecordProps {
   day: number
@@ -9,19 +13,33 @@ interface RecordProps {
 }
 
 export default function Record({ day, setDay, onNextPressed }: RecordProps) {
-  const [plansToday, setPlansToday] = useState<Task[]>([])
+  const [tasksToday, setTasksToday] = useState<Task[]>([])
 
+  // useEffect(() => {
+  //   const fetchTodayPlans = async () => {
+  //     const response = await fetch(postTodayPlansApi(), {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         day: day,
+  //       }),
+  //     })
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`)
+  //     }
+
+  //     const jsonData = await response.json()
+  //     console.log(jsonData)
+  //     setTodayPlans(jsonData["plans_today"])
+  //   }
+  //   fetchTodayPlans()
+  // }, [day])
   useEffect(() => {
-    const fetchTodayPlans = async () => {
-      const response = await fetch(postTodayPlansApi(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          day: day,
-        }),
-      })
+    const fetchTasksToday = async () => {
+      const response = await fetch(getTodayPlanApi(day))
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
@@ -29,9 +47,9 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
 
       const jsonData = await response.json()
       console.log(jsonData)
-      setPlansToday(jsonData["plans_today"])
+      setTasksToday(jsonData["tasks_today"])
     }
-    fetchTodayPlans()
+    fetchTasksToday()
   }, [day])
 
   // 新しいステート変数を追加
@@ -46,7 +64,7 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
   }
 
   const handleSubmit = async () => {
-    const totalPoints = plansToday
+    const totalPoints = tasksToday
       .filter((_, index) => checkedIndices.includes(index))
       .reduce((acc, cur) => acc + cur.point, 0)
 
@@ -79,7 +97,7 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
         <p>今日してくれたお手伝いを記録しましょう</p>
       </div>
 
-      {plansToday.length === 0 ? (
+      {tasksToday.length === 0 ? (
         <div>
           <h2>今日のお手伝いはありません</h2>
           <p>明日も頑張りましょう！</p>
@@ -87,7 +105,7 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
       ) : (
         <div>
           <h2>{day}日目のお手伝いプラン</h2>
-          {plansToday.map((task, index) => {
+          {tasksToday.map((task, index) => {
             return (
               <div key={index}>
                 {/* チェックボックスの状態を管理 */}
