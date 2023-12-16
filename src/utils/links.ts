@@ -4,6 +4,8 @@ export const getHelloWorldApi = () => {
   return `${API_BASE_URL}`
 }
 
+// new
+
 export const postSubmitGoalAndTaskApi = () => {
   return `${API_BASE_URL}api/v1/goals`
 }
@@ -11,6 +13,12 @@ export const postSubmitGoalAndTaskApi = () => {
 export const getSuggestedPlansApi = () => {
   return `${API_BASE_URL}api/v1/plans/suggested`
 }
+
+export const putAcceptSuggestedPlansApi = () => {
+  return `${API_BASE_URL}api/v1/plans/suggested`
+}
+
+// old
 
 export const postSuggestPlanApi = () => {
   return `${API_BASE_URL}api/v2/plans/suggest`

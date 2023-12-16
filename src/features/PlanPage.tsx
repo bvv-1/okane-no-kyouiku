@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 import { Plan } from "../utils/types"
-import { postAcceptPlanApi, getSuggestedPlansApi } from "../utils/links"
+import { getSuggestedPlansApi, putAcceptSuggestedPlansApi } from "../utils/links"
 
 interface PlanProps {
   plans: Plan[]
@@ -11,7 +11,7 @@ interface PlanProps {
   onNextPressed: () => void
 }
 
-export default function PlanPage({ plansIdsId, tasksIdsId, onBackPressed, onNextPressed }: PlanProps) {
+export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
   const [plans, setPlans] = useState<Plan[]>([])
   const [showAllPlans, setShowAllPlans] = useState(false)
 
@@ -37,15 +37,21 @@ export default function PlanPage({ plansIdsId, tasksIdsId, onBackPressed, onNext
   }, [])
 
   const handleAcceptPlan = async () => {
-    const response = await fetch(postAcceptPlanApi(), {
-      method: "POST",
+    // const response = await fetch(postAcceptPlanApi(), {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     plans_ids_id: plansIdsId,
+    //     tasks_ids_id: tasksIdsId,
+    //   }),
+    // })
+    const response = await fetch(putAcceptSuggestedPlansApi(), {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        plans_ids_id: plansIdsId,
-        tasks_ids_id: tasksIdsId,
-      }),
     })
 
     if (!response.ok) {
