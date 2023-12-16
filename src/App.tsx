@@ -1,7 +1,5 @@
 import { useState } from "react"
 
-import { Plan } from "./utils/types"
-
 import "./App.css"
 
 import StartPage from "./features/StartPage"
@@ -11,9 +9,6 @@ import ProgressPage from "./features/ProgressPage"
 
 export default function App() {
   const [uiState, setUIState] = useState<UIState>(UIState.Start)
-  const [plans, setPlans] = useState<Plan[]>([])
-  const [plansIdsId, setPlansIdsId] = useState<number | null>(null)
-  const [tasksIdsId, setTasksIdsId] = useState<number | null>(null)
   const [day, setDay] = useState<number>(1)
 
   return (
@@ -30,19 +25,9 @@ export default function App() {
         </div>
 
         <div>
-          {uiState === UIState.Start && (
-            <StartPage
-              setPlans={setPlans}
-              setPlansIdsId={setPlansIdsId}
-              setTasksIdsId={setTasksIdsId}
-              onNextPressed={() => setUIState(UIState.Plan)}
-            />
-          )}
+          {uiState === UIState.Start && <StartPage onNextPressed={() => setUIState(UIState.Plan)} />}
           {uiState === UIState.Plan && (
             <PlanPage
-              plans={plans}
-              plansIdsId={plansIdsId}
-              tasksIdsId={tasksIdsId}
               onBackPressed={() => setUIState(UIState.Start)}
               onNextPressed={() => setUIState(UIState.Record)}
             />

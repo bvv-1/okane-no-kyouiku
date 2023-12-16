@@ -15,28 +15,6 @@ interface RecordProps {
 export default function Record({ day, setDay, onNextPressed }: RecordProps) {
   const [tasksToday, setTasksToday] = useState<Task[]>([])
 
-  // useEffect(() => {
-  //   const fetchTodayPlans = async () => {
-  //     const response = await fetch(postTodayPlansApi(), {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         day: day,
-  //       }),
-  //     })
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`)
-  //     }
-
-  //     const jsonData = await response.json()
-  //     console.log(jsonData)
-  //     setTodayPlans(jsonData["plans_today"])
-  //   }
-  //   fetchTodayPlans()
-  // }, [day])
   useEffect(() => {
     const fetchTasksToday = async () => {
       const response = await fetch(getTodayPlanApi(day))

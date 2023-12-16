@@ -4,9 +4,6 @@ import { Plan } from "../utils/types"
 import { getSuggestedPlansApi, putAcceptSuggestedPlansApi } from "../utils/links"
 
 interface PlanProps {
-  plans: Plan[]
-  plansIdsId: number | null
-  tasksIdsId: number | null
   onBackPressed: () => void
   onNextPressed: () => void
 }

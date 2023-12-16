@@ -1,12 +1,9 @@
 import { useState } from "react"
 
-import { Plan, Task } from "../utils/types"
+import { Task } from "../utils/types"
 import { postSubmitGoalAndTaskApi } from "../utils/links"
 
 interface StartProps {
-  setPlans: (plans: Plan[]) => void
-  setPlansIdsId: (plansIdsId: number | null) => void
-  setTasksIdsId: (tasksIdsId: number | null) => void
   onNextPressed: () => void
 }
 
@@ -36,41 +33,6 @@ export default function StartPage({ onNextPressed }: StartProps) {
     setRequiredPoint(100)
     setTasks([{ name: "", point: 0 }])
   }
-
-  // const handleOnNext = async () => {
-  //   if (itemName === "") {
-  //     alert("商品名を入力してください")
-  //     return
-  //   }
-
-  //   const response = await fetch(postSuggestPlanApi(), {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       goal: itemName,
-  //       goal_points: requiredPoint,
-  //       tasks: tasks.map((task) => {
-  //         return {
-  //           task: task.task,
-  //           point: task.point,
-  //         }
-  //       }),
-  //     }),
-  //   })
-
-  //   if (!response.ok) {
-  //     throw new Error(`HTTP error! Status: ${response.status}`)
-  //   }
-
-  //   const jsonData = await response.json()
-  //   setPlans(jsonData["plans"])
-  //   setPlansIdsId(jsonData["plans_ids_id"])
-  //   setTasksIdsId(jsonData["tasks_ids_id"])
-  //   alert("登録しました！")
-  //   onNextPressed()
-  // }
 
   const handleOnNext = async () => {
     if (itemName === "") {

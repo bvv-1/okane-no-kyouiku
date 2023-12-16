@@ -8,34 +8,6 @@ export default function ProgressPage() {
   const [goal, setGoal] = useState<Goal | null>(null)
   const [onTrack, setOnTrack] = useState(true)
 
-  // useEffect(() => {
-  //   const fetchGoal = async () => {
-  //     const response = await fetch(getGoalApi())
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`)
-  //     }
-
-  //     const jsonData = await response.json()
-  //     console.log(jsonData)
-  //     setGoal({ goal: jsonData["goal"], goal_points: jsonData["goal_points"] })
-  //   }
-  //   fetchGoal()
-
-  //   const fetchTotalProgress = async () => {
-  //     const response = await fetch(getTotalProgressApi())
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`)
-  //     }
-
-  //     const jsonData = await response.json()
-  //     console.log(jsonData)
-  //     setTotalProgress(jsonData["points"])
-  //   }
-  //   fetchTotalProgress()
-  // }, [])
-
   useEffect(() => {
     const fetchCheckProgress = async () => {
       const response = await fetch(getCheckProgressApi())
