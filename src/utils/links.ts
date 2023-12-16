@@ -5,33 +5,33 @@ export const getHelloWorldApi = () => {
 }
 
 export const postSubmitGoalAndTaskApi = () => {
-	return `${API_BASE_URL}api/v1/goals`
+  return `${API_BASE_URL}api/v1/goals`
 }
 
 export const postSuggestPlanApi = () => {
-	return `${API_BASE_URL}api/v2/plans/suggest`
+  return `${API_BASE_URL}api/v2/plans/suggest`
 }
 
 export const postAcceptPlanApi = () => {
-	return `${API_BASE_URL}api/v1/plans/accept`
+  return `${API_BASE_URL}api/v1/plans/accept`
 }
 
 export const getGoalApi = () => {
-	return `${API_BASE_URL}api/v1/goals`
+  return `${API_BASE_URL}api/v1/goals`
 }
 
 export const getCheckProgressApi = () => {
-	return `${API_BASE_URL}api/v1/plans/check`
+  return `${API_BASE_URL}api/v1/plans/check`
 }
 
 export const postSubmitProgressApi = () => {
-	return `${API_BASE_URL}api/v1/plans/submit`
+  return `${API_BASE_URL}api/v1/plans/submit`
 }
 
 export const getTotalProgressApi = () => {
-	return `${API_BASE_URL}api/v1/points`
+  return `${API_BASE_URL}api/v1/points`
 }
 
 export const postTodayPlansApi = () => {
-	return `${API_BASE_URL}api/v1/plans/today`
+  return `${API_BASE_URL}api/v1/plans/today`
 }
