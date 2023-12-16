@@ -8,30 +8,22 @@ export const postSubmitGoalAndTaskApi = () => {
   return `${API_BASE_URL}api/v1/goals`
 }
 
-export const postSuggestPlanApi = () => {
-  return `${API_BASE_URL}api/v2/plans/suggest`
+export const getSuggestedPlansApi = () => {
+  return `${API_BASE_URL}api/v1/plans/suggested`
 }
 
-export const postAcceptPlanApi = () => {
-  return `${API_BASE_URL}api/v1/plans/accept`
-}
-
-export const getGoalApi = () => {
-  return `${API_BASE_URL}api/v1/goals`
+export const putAcceptSuggestedPlansApi = () => {
+  return `${API_BASE_URL}api/v1/plans/suggested`
 }
 
 export const getCheckProgressApi = () => {
-  return `${API_BASE_URL}api/v1/plans/check`
+  return `${API_BASE_URL}api/v1/goals/progress`
 }
 
-export const postSubmitProgressApi = () => {
-  return `${API_BASE_URL}api/v1/plans/submit`
+export const getTodayPlanApi = (day: number) => {
+  return `${API_BASE_URL}api/v2/plans/today?day=${day}`
 }
 
-export const getTotalProgressApi = () => {
-  return `${API_BASE_URL}api/v1/points`
-}
-
-export const postTodayPlansApi = () => {
-  return `${API_BASE_URL}api/v1/plans/today`
+export const postSubmitTodayProgressApi = () => {
+  return `${API_BASE_URL}api/v2/plans/today`
 }

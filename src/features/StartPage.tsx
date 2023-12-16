@@ -1,27 +1,24 @@
 import { useState } from "react"
 
-import { Plan, Task } from "../utils/types"
-import { postSuggestPlanApi } from "../utils/links"
+import { Task } from "../utils/types"
+import { postSubmitGoalAndTaskApi } from "../utils/links"
 
 interface StartProps {
-  setPlans: (plans: Plan[]) => void
-  setPlansIdsId: (plansIdsId: number | null) => void
-  setTasksIdsId: (tasksIdsId: number | null) => void
   onNextPressed: () => void
 }
 
-export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNextPressed }: StartProps) {
+export default function StartPage({ onNextPressed }: StartProps) {
   const [itemName, setItemName] = useState("")
   const [requiredPoint, setRequiredPoint] = useState(100)
-  const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }])
+  const [tasks, setTasks] = useState<Task[]>([{ name: "", point: 0 }])
 
   const handleOnAddTask = () => {
-    setTasks([...tasks, { task: "", point: 0 }])
+    setTasks([...tasks, { name: "", point: 0 }])
   }
 
   const handleOnChangeTask = (index: number, task: string) => {
     const newTasks = [...tasks]
-    newTasks[index].task = task
+    newTasks[index].name = task
     setTasks(newTasks)
   }
 
@@ -34,7 +31,7 @@ export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNe
   const handleOnClear = () => {
     setItemName("")
     setRequiredPoint(100)
-    setTasks([{ task: "", point: 0 }])
+    setTasks([{ name: "", point: 0 }])
   }
 
   const handleOnNext = async () => {
@@ -43,17 +40,19 @@ export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNe
       return
     }
 
-    const response = await fetch(postSuggestPlanApi(), {
+    const response = await fetch(postSubmitGoalAndTaskApi(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        goal: itemName,
-        goal_points: requiredPoint,
+        goal: {
+          name: itemName,
+          point: requiredPoint,
+        },
         tasks: tasks.map((task) => {
           return {
-            task: task.task,
+            name: task.name,
             point: task.point,
           }
         }),
@@ -65,9 +64,7 @@ export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNe
     }
 
     const jsonData = await response.json()
-    setPlans(jsonData["plans"])
-    setPlansIdsId(jsonData["plans_ids_id"])
-    setTasksIdsId(jsonData["tasks_ids_id"])
+    console.log(jsonData)
     alert("登録しました！")
     onNextPressed()
   }
@@ -113,7 +110,7 @@ export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNe
                   className="inputGetText"
                   type="text"
                   placeholder="タスク名"
-                  value={task.task}
+                  value={task.name}
                   onChange={(e) => {
                     handleOnChangeTask(index, e.target.value)
                   }}

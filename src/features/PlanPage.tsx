@@ -1,29 +1,44 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { Plan } from "../utils/types"
-import { postAcceptPlanApi } from "../utils/links"
+import { getSuggestedPlansApi, putAcceptSuggestedPlansApi } from "../utils/links"
 
 interface PlanProps {
-  plans: Plan[]
-  plansIdsId: number | null
-  tasksIdsId: number | null
   onBackPressed: () => void
   onNextPressed: () => void
 }
 
-export default function PlanPage({ plans, plansIdsId, tasksIdsId, onBackPressed, onNextPressed }: PlanProps) {
+export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
+  const [plans, setPlans] = useState<Plan[]>([])
   const [showAllPlans, setShowAllPlans] = useState(false)
 
+  useEffect(() => {
+    const fetchPlans = async () => {
+      const response = await fetch(getSuggestedPlansApi(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const jsonData = await response.json()
+      console.log(jsonData)
+      setPlans(jsonData)
+    }
+
+    fetchPlans()
+  }, [])
+
   const handleAcceptPlan = async () => {
-    const response = await fetch(postAcceptPlanApi(), {
-      method: "POST",
+    const response = await fetch(putAcceptSuggestedPlansApi(), {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        plans_ids_id: plansIdsId,
-        tasks_ids_id: tasksIdsId,
-      }),
     })
 
     if (!response.ok) {
@@ -33,6 +48,7 @@ export default function PlanPage({ plans, plansIdsId, tasksIdsId, onBackPressed,
     const jsonData = await response.json()
     console.log(jsonData)
     alert("お手伝いプランを確定しました！これから毎日頑張りましょう！")
+
     onNextPressed()
   }
 
@@ -66,15 +82,15 @@ export default function PlanPage({ plans, plansIdsId, tasksIdsId, onBackPressed,
                     <tr key={index}>
                       <td>{plan.day}日目</td>
                       <td>
-                        {plan.plans_today.map((task, index) => {
+                        {plan.tasks_today.map((task, index) => {
                           return (
                             <div key={index}>
-                              {task.task} ({task.point}pt)
+                              {task.name} ({task.point}pt)
                             </div>
                           )
                         })}
                       </td>
-                      <td>{plan.plans_today.reduce((acc, cur) => acc + cur.point, 0)}pt</td>
+                      <td>{plan.tasks_today.reduce((acc, cur) => acc + cur.point, 0)}pt</td>
                     </tr>
                   )
                 })}
