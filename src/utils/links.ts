@@ -4,6 +4,10 @@ export const getHelloWorldApi = () => {
   return `${API_BASE_URL}`
 }
 
+export const postSubmitGoalAndTaskApi = () => {
+	return `${API_BASE_URL}api/v1/goals`
+}
+
 export const postSuggestPlanApi = () => {
 	return `${API_BASE_URL}api/v2/plans/suggest`
 }
