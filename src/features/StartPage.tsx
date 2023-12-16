@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import { Plan, Task } from "../utils/types"
-import { postSuggestPlanApi } from "../utils/links"
+import { postSubmitGoalAndTaskApi } from "../utils/links"
 
 interface StartProps {
   setPlans: (plans: Plan[]) => void
@@ -10,7 +10,7 @@ interface StartProps {
   onNextPressed: () => void
 }
 
-export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNextPressed }: StartProps) {
+export default function StartPage({ onNextPressed }: StartProps) {
   const [itemName, setItemName] = useState("")
   const [requiredPoint, setRequiredPoint] = useState(100)
   const [tasks, setTasks] = useState<Task[]>([{ task: "", point: 0 }])
@@ -37,23 +37,60 @@ export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNe
     setTasks([{ task: "", point: 0 }])
   }
 
+  // const handleOnNext = async () => {
+  //   if (itemName === "") {
+  //     alert("商品名を入力してください")
+  //     return
+  //   }
+
+  //   const response = await fetch(postSuggestPlanApi(), {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       goal: itemName,
+  //       goal_points: requiredPoint,
+  //       tasks: tasks.map((task) => {
+  //         return {
+  //           task: task.task,
+  //           point: task.point,
+  //         }
+  //       }),
+  //     }),
+  //   })
+
+  //   if (!response.ok) {
+  //     throw new Error(`HTTP error! Status: ${response.status}`)
+  //   }
+
+  //   const jsonData = await response.json()
+  //   setPlans(jsonData["plans"])
+  //   setPlansIdsId(jsonData["plans_ids_id"])
+  //   setTasksIdsId(jsonData["tasks_ids_id"])
+  //   alert("登録しました！")
+  //   onNextPressed()
+  // }
+
   const handleOnNext = async () => {
     if (itemName === "") {
       alert("商品名を入力してください")
       return
     }
 
-    const response = await fetch(postSuggestPlanApi(), {
+    const response = await fetch(postSubmitGoalAndTaskApi(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        goal: itemName,
-        goal_points: requiredPoint,
+        goal: {
+          name: itemName,
+          point: requiredPoint,
+        },
         tasks: tasks.map((task) => {
           return {
-            task: task.task,
+            name: task.task,
             point: task.point,
           }
         }),
@@ -65,9 +102,7 @@ export default function StartPage({ setPlans, setPlansIdsId, setTasksIdsId, onNe
     }
 
     const jsonData = await response.json()
-    setPlans(jsonData["plans"])
-    setPlansIdsId(jsonData["plans_ids_id"])
-    setTasksIdsId(jsonData["tasks_ids_id"])
+    console.log(jsonData)
     alert("登録しました！")
     onNextPressed()
   }
