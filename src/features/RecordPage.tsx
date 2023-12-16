@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react"
 import { Task } from "../utils/types"
-import {
-  postSubmitProgressApi,
-  getTodayPlanApi,
-  // postSubmitDailyTasksApi,
-} from "../utils/links"
+import { getTodayPlanApi, postSubmitTodayProgressApi } from "../utils/links"
 
 interface RecordProps {
   day: number
@@ -14,6 +10,7 @@ interface RecordProps {
 
 export default function Record({ day, setDay, onNextPressed }: RecordProps) {
   const [tasksToday, setTasksToday] = useState<Task[]>([])
+  const [doneTasks, setDoneTasks] = useState<Task[]>([])
 
   useEffect(() => {
     const fetchTasksToday = async () => {
@@ -30,30 +27,33 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
     fetchTasksToday()
   }, [day])
 
-  // 新しいステート変数を追加
-  const [checkedIndices, setCheckedIndices] = useState<number[]>([])
+  const isDone = (task: Task) => {
+    return doneTasks.some((doneTask) => doneTask.name === task.name)
+  }
 
-  // チェックボックスの状態が変更されたときのハンドラ
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (task: Task) => {
     // チェックがついている場合は追加、ついていない場合は削除
-    setCheckedIndices((prevIndices) =>
-      prevIndices.includes(index) ? prevIndices.filter((prevIndex) => prevIndex !== index) : [...prevIndices, index],
+    setDoneTasks((prevTasks) =>
+      prevTasks.includes(task) ? prevTasks.filter((prevTask) => prevTask.name !== task.name) : [...prevTasks, task],
     )
   }
 
   const handleSubmit = async () => {
-    const totalPoints = tasksToday
-      .filter((_, index) => checkedIndices.includes(index))
-      .reduce((acc, cur) => acc + cur.point, 0)
+    const taskProgress = tasksToday.map((task) => {
+      return {
+        task: task,
+        is_done: isDone(task),
+      }
+    })
 
-    const response = await fetch(postSubmitProgressApi(), {
+    const response = await fetch(postSubmitTodayProgressApi(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         day: day,
-        total_points: totalPoints,
+        task_progress: taskProgress,
       }),
     })
 
@@ -94,11 +94,7 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
             return (
               <div key={index}>
                 {/* チェックボックスの状態を管理 */}
-                <input
-                  type="checkbox"
-                  checked={checkedIndices.includes(index)}
-                  onChange={() => handleCheckboxChange(index)}
-                />
+                <input type="checkbox" checked={isDone(task)} onChange={() => handleCheckboxChange(task)} />
                 {task.name} ({task.point}pt)
               </div>
             )

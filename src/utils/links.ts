@@ -26,7 +26,7 @@ export const getTodayPlanApi = (day: number) => {
   return `${API_BASE_URL}api/v2/plans/today?day=${day}`
 }
 
-export const postSubmitDailyTasksApi = () => {
+export const postSubmitTodayProgressApi = () => {
   return `${API_BASE_URL}api/v1/plans/today`
 }
 
