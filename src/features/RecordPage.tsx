@@ -8,7 +8,7 @@ import {
 
 interface RecordProps {
   day: number
-  setDay: (day: number | ((prev: number) => number)) => void
+  setDay: React.Dispatch<React.SetStateAction<number>>
   onNextPressed: () => void
 }
 
@@ -68,6 +68,13 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
     onNextPressed()
   }
 
+  const handlePrevDay = () => {
+    setDay((d) => d - 1)
+  }
+  const handleNextDay = () => {
+    setDay((d) => d + 1)
+  }
+
   return (
     <>
       <div className="title">
@@ -101,8 +108,8 @@ export default function Record({ day, setDay, onNextPressed }: RecordProps) {
       )}
 
       <div className="buttons">
-        <button onClick={() => setDay(day - 1)}>前の日へ</button>
-        <button onClick={() => setDay(day + 1)}>次の日へ</button>
+        <button onClick={handlePrevDay}>前の日へ</button>
+        <button onClick={handleNextDay}>次の日へ</button>
       </div>
     </>
   )

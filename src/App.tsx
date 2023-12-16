@@ -9,7 +9,7 @@ import ProgressPage from "./features/ProgressPage"
 
 export default function App() {
   const [uiState, setUIState] = useState<UIState>(UIState.Start)
-  const [day, setDay] = useState<number>(1)
+  const [day, setDay] = useState(1)
 
   return (
     <>
