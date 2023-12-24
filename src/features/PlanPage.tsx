@@ -10,10 +10,12 @@ interface PlanProps {
 
 export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
   const [plans, setPlans] = useState<Plan[]>([])
-  const [showAllPlans, setShowAllPlans] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchPlans = async () => {
+      setIsLoading(true)
+
       const response = await fetch(getSuggestedPlansApi(), {
         method: "GET",
         headers: {
@@ -28,6 +30,8 @@ export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
       const jsonData = await response.json()
       console.log(jsonData)
       setPlans(jsonData)
+
+      setIsLoading(false)
     }
 
     fetchPlans()
@@ -62,12 +66,11 @@ export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
 
         {/* TODO: 何日に一回なにをする、みたいなサマリーを表示 */}
 
-        <button id="hyouzi" onClick={() => setShowAllPlans(!showAllPlans)}>
-          {showAllPlans ? "表示しない" : "日々の計画を表示する"}
-        </button>
-        {showAllPlans && (
+        <h3>日々の計画</h3>
+        {isLoading ? (
+          <div>ロード中</div>
+        ) : (
           <div>
-            <h3>日々の計画</h3>
             <table>
               <thead>
                 <tr>
