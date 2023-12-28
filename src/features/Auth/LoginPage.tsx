@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { postRegisterApi } from "../../utils/links"
+import { postLoginApi } from "../../utils/links"
 import { isValidEmail } from "../../utils/validations"
 
-interface RegisterProps {
+interface LoginProps {
   onNextPressed: () => void
 }
 
-export default function RegisterPage(props: RegisterProps) {
+export default function LoginPage(props: LoginProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -29,7 +29,7 @@ export default function RegisterPage(props: RegisterProps) {
       return
     }
 
-    const response = await fetch(postRegisterApi(), {
+    const response = await fetch(postLoginApi(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,13 +41,13 @@ export default function RegisterPage(props: RegisterProps) {
     })
 
     if (!response.ok) {
-      alert("登録に失敗しました")
+      alert("ログインに失敗しました")
       return
     }
 
     const jsonData = await response.json()
     console.log(jsonData)
-    alert("登録しました")
+    alert("ログインしました")
     props.onNextPressed()
   }
 
@@ -55,8 +55,8 @@ export default function RegisterPage(props: RegisterProps) {
     <>
       <div id="div">
         <div className="title">
-          <h1>登録</h1>
-          <p>メールアドレスとパスワードを設定してください。</p>
+          <h1>ログイン</h1>
+          <p>ログイン情報を入力してください。</p>
         </div>
 
         <h3>メールアドレス</h3>
