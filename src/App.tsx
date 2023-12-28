@@ -6,6 +6,7 @@ import StartPage from "./features/StartPage"
 import PlanPage from "./features/PlanPage"
 import RecordPage from "./features/RecordPage"
 import ProgressPage from "./features/ProgressPage"
+import RegisterPage from "./features/Auth/RegisterPage"
 
 export default function App() {
   const [uiState, setUIState] = useState<UIState>(UIState.Start)
@@ -25,6 +26,7 @@ export default function App() {
         </div>
 
         <div>
+          <RegisterPage onNextPressed={() => setUIState(UIState.Start)} />
           {uiState === UIState.Start && <StartPage onNextPressed={() => setUIState(UIState.Plan)} />}
           {uiState === UIState.Plan && (
             <PlanPage
