@@ -3,7 +3,11 @@ import { Goal } from "../utils/types"
 import { getCheckProgressApi } from "../utils/links"
 import imgCongrats from "../assets/kusudama_1170.png"
 
-export default function ProgressPage() {
+interface ProgressProps {
+  token: string
+}
+
+export default function ProgressPage(props: ProgressProps) {
   const [totalPoint, setTotalPoint] = useState(-1)
   const [goal, setGoal] = useState<Goal | null>(null)
   const [onTrack, setOnTrack] = useState(true)
@@ -24,6 +28,7 @@ export default function ProgressPage() {
     }
     fetchCheckProgress()
   }, [])
+  console.log(props.token)
 
   return (
     <>

@@ -4,6 +4,7 @@ import { isValidEmail } from "../../utils/validations"
 
 interface LoginProps {
   onNextPressed: () => void
+  setToken: (token: string) => void
 }
 
 export default function LoginPage(props: LoginProps) {
@@ -46,8 +47,10 @@ export default function LoginPage(props: LoginProps) {
     }
 
     const jsonData = await response.json()
-    console.log(jsonData)
+    const token = jsonData.token
+    localStorage.setItem("token", token)
     alert("ログインしました")
+    props.setToken(token)
     props.onNextPressed()
   }
 

@@ -6,6 +6,7 @@ import { getSuggestedPlansApi, putAcceptSuggestedPlansApi } from "../utils/links
 interface PlanProps {
   onBackPressed: () => void
   onNextPressed: () => void
+  token: string
 }
 
 export default function PlanPage({ onBackPressed, onNextPressed }: PlanProps) {
