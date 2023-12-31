@@ -6,6 +6,7 @@ interface RecordProps {
   day: number
   setDay: React.Dispatch<React.SetStateAction<number>>
   onNextPressed: () => void
+  token: string
 }
 
 export default function Record({ day, setDay, onNextPressed }: RecordProps) {

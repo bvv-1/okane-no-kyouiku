@@ -5,6 +5,7 @@ import { postSubmitGoalAndTaskApi } from "../utils/links"
 
 interface StartProps {
   onNextPressed: () => void
+  token: string
 }
 
 export default function StartPage({ onNextPressed }: StartProps) {
