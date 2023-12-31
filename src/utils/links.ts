@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080/" // "https://gin-okane-no-kyouiku-api.onrender.com/"
+const API_BASE_URL = "https://gin-okane-no-kyouiku-api.onrender.com/"
 
 export const getHelloWorldApi = () => {
   return `${API_BASE_URL}`
